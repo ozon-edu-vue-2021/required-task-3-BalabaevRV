@@ -1,5 +1,5 @@
 <template>
-  <div class="menu">
+  <div class="menu" v-click-outside="onClickOutside">
     <div class="toolbar">
       <div class="toolbar__header">
         <template v-if="!isUserOpenned">
@@ -50,6 +50,7 @@ import legend from "@/assets/data/legend.json";
 import { Doughnut } from "vue-chartjs";
 import Draggable from "vuedraggable";
 import tables from "@/assets/data/tables.json";
+import vClickOutside from "v-click-outside";
 
 export default {
   props: {
@@ -61,6 +62,9 @@ export default {
       type: Object,
       default: null,
     },
+  },
+  directives: {
+    clickOutside: vClickOutside.directive,
   },
   components: {
     LegendItem,
@@ -112,6 +116,11 @@ export default {
             (table) => table.group_id === legendItem.group_id
           ).length)
       );
+    },
+    onClickOutside() {
+      if (this.isUserOpenned) {
+        this.closeProfile();
+      }
     },
   },
   mounted() {

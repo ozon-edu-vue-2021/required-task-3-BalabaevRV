@@ -1,9 +1,13 @@
 <template>
   <div id="app">
     <div class="office">
-      <Map @clickTable="onClickTable" :isUserOpenned="isUserOpenned"/>
-      <SideMenu @clickTable="onClickTable" :person="person" :isUserOpenned="isUserOpenned"
-                @update:isUserOpenned="isUserOpenned = false"/>
+      <Map @clickTable="onClickTable" :isUserOpenned="isUserOpenned" />
+      <SideMenu
+        @clickTable="onClickTable"
+        :person="person"
+        :isUserOpenned="isUserOpenned"
+        @update:isUserOpenned="isUserOpenned = false"
+      />
     </div>
   </div>
 </template>
@@ -23,18 +27,18 @@ export default {
     return {
       persons: [],
       person: undefined,
-      isUserOpenned: false
-    }
+      isUserOpenned: false,
+    };
   },
   methods: {
     onClickTable(idPerson) {
       this.person = persons[idPerson];
       this.isUserOpenned = true;
-    }
+    },
   },
   mounted() {
     this.persons = persons;
-  }
+  },
 };
 </script>
 

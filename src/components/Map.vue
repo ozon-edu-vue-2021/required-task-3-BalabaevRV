@@ -1,12 +1,9 @@
 <template>
   <div class="map">
     <h3>Карта офиса</h3>
-    <div
-        v-if="!isLoading"
-        class="map-root"
-    >
-      <MapSVG ref="mapRoot"/>
-      <tableSVG ref="tableSVG" v-show="false"/>
+    <div v-if="!isLoading" class="map-root">
+      <MapSVG ref="mapRoot" />
+      <tableSVG ref="tableSVG" v-show="false" />
     </div>
     <div v-else>Loading...</div>
   </div>
@@ -22,11 +19,9 @@ import legend from "@/assets/data/legend.json";
 export default {
   components: {
     MapSVG,
-    tableSVG
+    tableSVG,
   },
-  props: [
-    "isUserOpenned"
-  ],
+  props: ["isUserOpenned"],
   data() {
     return {
       isLoading: false,
@@ -35,7 +30,7 @@ export default {
       tables: [],
       tableSVG: null,
       selectTableColor: "",
-      selectTable: null
+      selectTable: null,
     };
   },
   mounted() {
@@ -55,39 +50,41 @@ export default {
         this.selectTable.setAttribute("fill", this.selectTableColor);
         this.selectTable = null;
       }
-    }
+    },
   },
   methods: {
     drawTables() {
-      const svgTablesGroup = this.g.append('g').classed('groupPlaces', true);
+      const svgTablesGroup = this.g.append("g").classed("groupPlaces", true);
       this.tables.map((table) => {
-        const svgTable = svgTablesGroup.append('g')
-            .attr('transform', `translate(${table.x}, ${table.y}), scale(0.5)`)
-            .attr('id', table._id)
-            .classed('employer-place', true)
-            .on("click", this.clickTable);
+        const svgTable = svgTablesGroup
+          .append("g")
+          .attr("transform", `translate(${table.x}, ${table.y}), scale(0.5)`)
+          .attr("id", table._id)
+          .classed("employer-place", true)
+          .on("click", this.clickTable);
 
-        svgTable.append('g')
-            .attr('transform', `rotate(${table.rotate || 0})`)
-            .html(this.tableSVG.html())
-            .attr('fill', legend.find((it) => it.group_id === table.group_id)?.color ?? "transparent")
-      })
+        svgTable
+          .append("g")
+          .attr("transform", `rotate(${table.rotate || 0})`)
+          .html(this.tableSVG.html())
+          .attr(
+            "fill",
+            legend.find((it) => it.group_id === table.group_id)?.color ??
+              "transparent"
+          );
+      });
     },
     clickTable(e) {
-
+      e.stopPropagation();
       if (this.selectTable) {
         this.selectTable.setAttribute("fill", this.selectTableColor);
       }
       const newTable = e.currentTarget.querySelector("g");
-
       this.selectTable = newTable;
       this.selectTableColor = newTable.getAttribute("fill");
-
       newTable.setAttribute("fill", "lightgreen");
-
-
       this.$emit("clickTable", e.currentTarget.id);
-    }
+    },
   },
 };
 </script>
