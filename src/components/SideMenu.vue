@@ -2,30 +2,34 @@
   <div class="menu" v-click-outside="onClickOutside">
     <div class="toolbar">
       <div class="toolbar__header">
-        <template v-if="!isUserOpenned">
-          <h3>Информация</h3>
-        </template>
-        <template v-else>
+        <template v-if="isUserOpenned">
           <div class="action">
             <div class="arrow" @click="closeProfile"></div>
           </div>
           <h3>Профиль</h3>
         </template>
+        <template v-else>
+          <h3>Информация</h3>
+        </template>
       </div>
       <div class="toolbar__actions"></div>
     </div>
     <div class="content">
-      <div v-if="!isUserOpenned" class="legend">
+      <div v-if="isUserOpenned" class="profile">
+        <div v-if="!person" class="profile__empty">Место пустое</div>
+        <PersonCard v-if="person" :person="person" />
+      </div>
+      <div v-else class="legend">
         <div class="legend__data">
           <div v-if="legend.length > 0" class="legend__items">
             <draggable>
               <LegendItem
-                v-for="(item, index) in legend"
-                :key="index"
-                :color="item.color"
-                :text="item.text"
-                :counter="item.counter"
-                class="legend__item"
+                  v-for="(item, index) in legend"
+                  :key="index"
+                  :color="item.color"
+                  :text="item.text"
+                  :counter="item.counter"
+                  class="legend__item"
               />
             </draggable>
           </div>
@@ -34,10 +38,6 @@
         <div class="legend__chart">
           <Doughnut ref="chart" />
         </div>
-      </div>
-      <div v-else class="profile">
-        <div v-if="!person" class="profile__empty">Место пустое</div>
-        <PersonCard v-if="person" :person="person" />
       </div>
     </div>
   </div>
