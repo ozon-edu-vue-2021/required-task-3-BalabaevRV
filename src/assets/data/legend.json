@@ -22,11 +22,5 @@
     "color": "khaki",
     "text": "Подразделение 4",
     "counter": 0
-  },
-  {
-    "group_id": 4,
-    "color": "gold",
-    "text": "Подразделение 5",
-    "counter": 0
   }
 ]
